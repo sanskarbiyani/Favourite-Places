@@ -1,18 +1,50 @@
+import 'package:favourite_places/providers/favourite_place.dart';
+import 'package:favourite_places/screens/add_favourite_place.dart';
+import 'package:favourite_places/screens/favourite_place.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FavouriteListScreen extends StatefulWidget {
+class FavouriteListScreen extends ConsumerWidget {
   const FavouriteListScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _FavouriteListScreenState();
-}
-
-class _FavouriteListScreenState extends State<FavouriteListScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favouritePlaceList = ref.watch(favouritePlaceProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text("Your places")),
-      body: Center(child: const Text("Favourite places list")),
+      appBar: AppBar(
+        title: const Text("Your places"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (ctx) => AddFavouritePlaceScreen()),
+              );
+            },
+            icon: Container(
+              margin: const EdgeInsets.only(right: 8),
+              child: const Icon(Icons.add, color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+      body: ListView.builder(
+        itemCount: favouritePlaceList.length,
+        itemBuilder: (ctx, ind) {
+          return ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 12),
+            title: Text(favouritePlaceList[ind].name),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder:
+                      (ctx) =>
+                          FavouritePlace(favplace: favouritePlaceList[ind]),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
