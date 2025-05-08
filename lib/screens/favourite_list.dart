@@ -1,6 +1,6 @@
 import 'package:favourite_places/providers/favourite_place.dart';
 import 'package:favourite_places/screens/add_favourite_place.dart';
-import 'package:favourite_places/screens/favourite_place.dart';
+import 'package:favourite_places/widgets/place_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,24 +27,7 @@ class FavouriteListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: favouritePlaceList.length,
-        itemBuilder: (ctx, ind) {
-          return ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 12),
-            title: Text(favouritePlaceList[ind].name),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder:
-                      (ctx) =>
-                          FavouritePlace(favplace: favouritePlaceList[ind]),
-                ),
-              );
-            },
-          );
-        },
-      ),
+      body: PlaceList(places: favouritePlaceList),
     );
   }
 }

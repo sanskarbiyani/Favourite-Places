@@ -1,4 +1,5 @@
 import 'package:favourite_places/providers/favourite_place.dart';
+import 'package:favourite_places/widgets/image_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,12 +15,14 @@ class AddFavouritePlaceScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(title: const Text('Add Favourite Place')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
+              ImageInput(),
+              const SizedBox(height: 12),
               TextFormField(
                 maxLength: 60,
                 textCapitalization: TextCapitalization.sentences,
@@ -40,7 +43,7 @@ class AddFavouritePlaceScreen extends ConsumerWidget {
                 },
               ),
               const SizedBox(height: 8),
-              TextButton(
+              ElevatedButton.icon(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
@@ -50,7 +53,8 @@ class AddFavouritePlaceScreen extends ConsumerWidget {
                     Navigator.of(context).pop();
                   }
                 },
-                child: const Text("Add place"),
+                icon: Icon(Icons.add),
+                label: const Text("Add place"),
               ),
             ],
           ),
